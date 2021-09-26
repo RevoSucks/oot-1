@@ -804,3 +804,4 @@ SAFE_C_FILES :=    \
     build/src/libultra_boot_O2/_Ldtob.o    \
     build/src/libultra_boot_O2/osPiGetCmdQueue.o    \
     build/src/libultra_boot_O2/osViSetSpecialFeatures.o    \
+    build/src/overlays/actors/ovl_Boss_Ganon/z_boss_ganon.o    \

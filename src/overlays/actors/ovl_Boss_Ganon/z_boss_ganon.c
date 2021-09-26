@@ -56,7 +56,7 @@ extern UNK_TYPE D_06010298;
 extern UNK_TYPE D_06010514;
 extern UNK_TYPE D_060114E8;
 
-/*
+
 const ActorInit Boss_Ganon_InitVars = {
     ACTOR_BOSS_GANON,
     ACTORCAT_BOSS,
@@ -69,6 +69,7 @@ const ActorInit Boss_Ganon_InitVars = {
     (ActorFunc)BossGanon_Draw,
 };
 
+/*
 static ColliderCylinderInit D_808E4C00 = {
     {
         COLTYPE_HIT3,
@@ -109,6 +110,31 @@ static ColliderCylinderInit D_808E4C2C = {
     { 20, 30, -15, { 0, 0, 0 } },
 };
 */
+
+// Warp straight to Ganon2 fight. This stub allows us to GCC compile this incomplete file by skipping
+// the Ganondorf fight.
+void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
+    // set scene to ganon2 fight.
+    globalCtx->nextEntranceIndex = 0x0517;
+    globalCtx->sceneLoadFlag = 0x14;
+    // correct organ music playing when scene starts.
+    gSaveContext.seqIndex = 0xFF;
+    gSaveContext.nightSeqIndex = 0xFF;
+}
+
+void BossGanon_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    
+}
+
+void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
+    
+}
+
+void BossGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    
+}
+
+/*
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808D6870.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808D69B0.s")
@@ -232,3 +258,4 @@ static ColliderCylinderInit D_808E4C2C = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808E3564.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808E3D84.s")
+*/
