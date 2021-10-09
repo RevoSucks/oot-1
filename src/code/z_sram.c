@@ -22,7 +22,7 @@ typedef struct {
     /* 0x20 */ u8 doubleMagic;
     /* 0x21 */ u8 doubleDefense;
     /* 0x22 */ u8 bgsFlag;
-    /* 0x23 */ u8 ocarinaGameReward;
+    /* 0x23 */ u8 ocarinaGameRoundNum;
     /* 0x24 */ ItemEquips childEquips;
     /* 0x2E */ ItemEquips adultEquips;
     /* 0x38 */ u32 unk_38; // this may be incorrect, currently used for alignement
@@ -113,7 +113,7 @@ static SavePlayerData sNewSavePlayerData = {
     0,                                                  // doubleMagic
     0,                                                  // doubleDefense
     0,                                                  // bgsFlag
-    0,                                                  // ocarinaGameReward
+    0,                                                  // ocarinaGameRoundNum
     {
         { ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE }, // buttonItems
         { SLOT_NONE, SLOT_NONE, SLOT_NONE },            // cButtonSlots
@@ -196,7 +196,7 @@ static SavePlayerData sDebugSavePlayerData = {
     0,                                                  // doubleMagic
     0,                                                  // doubleDefense
     0,                                                  // bgsFlag
-    0,                                                  // ocarinaGameReward
+    0,                                                  // ocarinaGameRoundNum
     {
         { ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE }, // buttonItems
         { SLOT_NONE, SLOT_NONE, SLOT_NONE },            // cButtonSlots
@@ -381,10 +381,10 @@ void Sram_OpenSave(SramContext* sramCtx) {
         osSyncPrintf(VT_FGCOL(BLUE));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCopy(gScarecrowCustomSongPtr, &gSaveContext.scarecrowCustomSong, 0x360);
+        MemCopy(gScarecrowCustomSongPtr, &gSaveContext.scarecrowCustomSong, sizeof(gSaveContext.scarecrowCustomSong));
 
-        ptr = gScarecrowCustomSongPtr;
-        for (i = 0; i < 0x360; i++, ptr++) {
+        ptr = (u8*)gScarecrowCustomSongPtr;
+        for (i = 0; i < (s32)sizeof(gSaveContext.scarecrowCustomSong); i++, ptr++) {
             osSyncPrintf("%d, ", *ptr);
         }
 
@@ -396,10 +396,10 @@ void Sram_OpenSave(SramContext* sramCtx) {
         osSyncPrintf(VT_FGCOL(GREEN));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCopy(gScarecrowSpawnSongPtr, &gSaveContext.scarecrowSpawnSong, 0x80);
+        MemCopy(gScarecrowSpawnSongPtr, &gSaveContext.scarecrowSpawnSong, sizeof(gSaveContext.scarecrowSpawnSong));
 
         ptr = gScarecrowSpawnSongPtr;
-        for (i = 0; i < 0x80; i++, ptr++) {
+        for (i = 0; i < (s32)sizeof(gSaveContext.scarecrowSpawnSong); i++, ptr++) {
             osSyncPrintf("%d, ", *ptr);
         }
 
@@ -843,8 +843,8 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     gSaveContext.zTargetSetting = sramCtx->readBuff[1] & 1;
     gSaveContext.language = sramCtx->readBuff[2];
 
-    if (gSaveContext.language > 2) {
-        gSaveContext.language = 0;
+    if (gSaveContext.language > LANGUAGE_MAX) {
+        gSaveContext.language = LANGUAGE_ENG;
         sramCtx->readBuff[2] = gSaveContext.language;
         Sram_Write16Bytes(sramCtx);
     }
