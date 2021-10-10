@@ -725,10 +725,12 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
                 color = &sGauntletColors[strengthUpgrade - 2];
                 gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
 
-                gSPDisplayList(POLY_OPA_DISP++, D_06025218);
-                gSPDisplayList(POLY_OPA_DISP++, D_06025598);
-                gSPDisplayList(POLY_OPA_DISP++, (D_80160014 == 0) ? D_060252D8 : D_06025438);
-                gSPDisplayList(POLY_OPA_DISP++, (D_80160018 == 8) ? D_06025658 : D_060257B8);
+                gSPDisplayList(POLY_OPA_DISP++, gLinkAdultLeftSilverAndGoldenGauntletForearmDL);
+                gSPDisplayList(POLY_OPA_DISP++, gLinkAdultRightSilverAndGoldenGauntletForearmDL);
+                gSPDisplayList(POLY_OPA_DISP++, (D_80160014 == 0) ? gLinkAdultLeftSilverGauntletHandDL
+                                                                  : gLinkAdultLeftGoldenGauntletHandDL);
+                gSPDisplayList(POLY_OPA_DISP++, (D_80160018 == 8) ? gLinkAdultRightSilverGauntletHandDL
+                                                                  : gLinkAdultRightGoldenGauntletHandDL);
             }
 
             if (boots != 0) {
@@ -987,7 +989,7 @@ s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         } else if (limbIndex == PLAYER_LIMB_R_FOREARM) {
             *dList = D_80125F30[(void)0, gSaveContext.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-            *dList = Player_HoldsHookshot(this) ? D_0602A738 : D_80125F38[(void)0, gSaveContext.linkAge];
+            *dList = Player_HoldsHookshot(this) ? gLinkAdultFPRightHandAndHookshotDL : D_80125F38[(void)0, gSaveContext.linkAge];
         } else {
             *dList = NULL;
         }
@@ -1162,7 +1164,7 @@ void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2587),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(OVERLAY_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-        gSPDisplayList(OVERLAY_DISP++, D_0602CB48);
+        gSPDisplayList(OVERLAY_DISP++, gHookshotReticleDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2592);
     }
