@@ -14,6 +14,8 @@ COMPILER ?= gcc
 NORMAL_GAMEPLAY ?= 1
 # Convert text to EUC-JP before compilation
 CONV_TEXT ?= 1
+# Extract Assets if defined.
+NOEXTRACT ?= 0
 
 # If gcc is used, define the NON_MATCHING and NON_EQUIVALENT flags respectively so the files that
 # are safe to be used can avoid using GLOBAL_ASM which doesn't work with gcc.
@@ -251,8 +253,10 @@ distclean: clean assetclean
 setup:
 	$(MAKE) -C tools
 	python3 fixbaserom.py
+ifeq ($(NOEXTRACT),0)
 	python3 extract_baserom.py
 	python3 extract_assets.py
+endif
 
 resources: $(ASSET_FILES_OUT)
 test: $(ROM)
