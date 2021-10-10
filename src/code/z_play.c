@@ -1368,7 +1368,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
     Camera_Finish(GET_ACTIVE_CAM(globalCtx));
 
     // Skulltula sanity check, because fuck this dumb SRAM GCC bug or whatever it is.
-    {
+    // UPDATE: This was fixed, but I dont feel like removing this in case I need it again.
+    if (0) {
         Gfx* prevDisplayList = POLY_OPA_DISP;
         Gfx* gfxP = Graph_GfxPlusOne(POLY_OPA_DISP);
         gSPDisplayList(OVERLAY_DISP++, gfxP);
