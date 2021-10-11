@@ -5706,8 +5706,7 @@ beginseg
     name "object_km1"
     compress
     romalign 0x1000
-    include "build/baserom/object_km1.o"
-    //include "build/assets/objects/object_km1/object_km1.o"
+    include "build/assets/objects/object_km1/object_km1.o"
     number 6
 endseg
 
@@ -5715,8 +5714,7 @@ beginseg
     name "object_kw1"
     compress
     romalign 0x1000
-    include "build/baserom/object_kw1.o"
-    //include "build/assets/objects/object_kw1/object_kw1.o"
+    include "build/assets/objects/object_kw1/object_kw1.o"
     number 6
 endseg
 
