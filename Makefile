@@ -14,7 +14,7 @@ COMPILER ?= gcc
 NORMAL_GAMEPLAY ?= 1
 # Convert text to EUC-JP before compilation
 CONV_TEXT ?= 1
-# Extract Assets if defined.
+# Do NOT Extract Assets if defined. Protect from distclean.
 NOEXTRACT ?= 0
 
 # If gcc is used, define the NON_MATCHING and NON_EQUIVALENT flags respectively so the files that
@@ -241,6 +241,9 @@ clean:
 	$(RM) -r $(ROM) $(ROMC) $(ELF) build
 
 assetclean:
+ifeq ($(NOEXTRACT),1)
+	$(error ERROR: distclean or assetclean with NOEXTRACT defined is not a good idea and will break your repo. Please disable it first if you're serious.)
+endif
 	$(RM) -r $(ASSET_BIN_DIRS)
 	$(RM) -r assets/text/*.h
 	$(RM) -r build/assets
