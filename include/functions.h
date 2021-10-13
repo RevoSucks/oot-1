@@ -9,7 +9,7 @@ f32 fabsf(f32 f);
 #define fabsf __builtin_fabsf
 f32 __floatundisf(u32 c);
 f64 __floatundidf(u32 c);
-unsigned long __udivdi3 (unsigned long a , unsigned long b );
+unsigned long __udivdi3(unsigned long a, unsigned long b);
 #else
 #pragma intrinsic(fabsf)
 #endif
@@ -916,6 +916,8 @@ void Environment_ClearBgsDayCount(void);
 s32 Environment_GetTotalDays(void);
 void func_800775F0(u16);
 s32 func_80077600(void);
+void func_80077624(GlobalContext* globalCtx);
+void func_80077684(GlobalContext* globalCtx);
 void Environment_WarpSongLeave(GlobalContext* globalCtx);
 void Lib_MemSet(u8* dest, size_t size, u8 val);
 f32 Math_CosS(s16 angle);
@@ -1652,7 +1654,9 @@ void PadMgr_HandleRetraceMsg(PadMgr* padmgr);
 void PadMgr_HandlePreNMI(PadMgr* padmgr);
 // This function must remain commented out, because it is called incorrectly in
 // fault.c (actual bug in game), and the compiler notices and won't compile it
- void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
+#ifdef MODDING
+void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
+#endif
 void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* siIntMsgQ, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack);
 void Sched_SwapFrameBuffer(CfbInfo* cfbInfo);
 void func_800C84E4(SchedContext* sc, CfbInfo* cfbInfo);
