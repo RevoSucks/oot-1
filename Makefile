@@ -134,7 +134,8 @@ endif
 #### Files ####
 
 # ROM image
-ROM := zelda_ocarina_mq_dbg.z64
+ROM  := zelda_ocarina_mq_dbg.z64
+ROMC := zelda_ocarina_mq_dbg_cmp.z64
 ELF := $(ROM:.z64=.elf)
 # description of ROM segments
 SPEC := spec
@@ -206,11 +207,22 @@ endif
 
 #### Main Targets ###
 
-all: $(ROM)
+all: version uncompressed
+
+version:
+	./tools/genBuildInfo
+	$(shell touch src/boot/build.c)
+
+uncompressed: $(ROM)
 ifeq ($(COMPARE),1)
 	@md5sum $(ROM)
 	@md5sum -c checksum.md5
 endif
+
+compressed: $(ROMC)
+
+$(ROMC): $(ROM)
+	python3 tools/z64compress_wrapper.py --cache cache --threads $(shell nproc) $< $@ $(ELF) build/$(SPEC) --mb 32
 
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
@@ -226,7 +238,7 @@ build/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > build/undefined_syms.txt
 
 clean:
-	$(RM) -r $(ROM) $(ELF) build
+	$(RM) -r $(ROM) $(ROMC) $(ELF) build
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)

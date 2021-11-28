@@ -1,5 +1,6 @@
 CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
-PROGRAMS := yaz0 makeromfs elf2rom mkldscript vtxdis
+PROGRAMS := yaz0 makeromfs elf2rom mkldscript vtxdis genBuildInfo
+ZAPD := ZAPD/ZAPD.out
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
   CC := clang
@@ -18,11 +19,13 @@ ifneq ($(LLD),0)
 endif
 
 all: $(PROGRAMS)
-	cd ZAPD && $(MAKE)
+	$(MAKE) -C ZAPD
+	$(MAKE) -C z64compress
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
 	$(MAKE) -C ZAPD clean
+	$(MAKE) -C z64compress clean
 
 distclean: clean
 
@@ -33,6 +36,7 @@ elf2rom_SOURCES    := elf2rom.c elf32.c n64chksum.c util.c
 yaz0_SOURCES       := yaz0tool.c yaz0.c util.c
 makeromfs_SOURCES  := makeromfs.c n64chksum.c util.c
 vtxdis_SOURCES	   := vtxdis.c
+genBuildInfo_SOURCES := genBuildInfo.c
 
 define COMPILE =
 $(1): $($1_SOURCES)
